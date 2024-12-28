@@ -1,7 +1,7 @@
 import pytest
 
 
-class HomePageQuestions:
+class TestHomePageQuestions:
 
     @pytest.mark.parametrize("number_questions, answer",
                              [(0, 'Сутки — 400 рублей. Оплата курьеру — наличными или картой.'),
