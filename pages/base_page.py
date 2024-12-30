@@ -1,8 +1,4 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-
-from locators.base_locators import BaseLocators
-from urls.urls import Urls
 
 
 class BasePage:
@@ -11,18 +7,36 @@ class BasePage:
         self.driver = driver
         self.wait = wait
 
-    # метод нажимает верхнюю кнопку "Заказать"
-    def order_upper(self):
-        self.driver.find_element(By.XPATH, BaseLocators.BUTTON_ORDER_UPPER).click()
-        self.wait.until(EC.visibility_of_element_located((By.CLASS_NAME, BaseLocators.FORM_ORDER_PART_I)))
+    # метод прокручивает страницу до локатора
+    def scroll_page_to(self, locator):
+        self.driver.execute_script("arguments[0].scrollIntoView();", self.driver.find_element(*locator))
+        self.wait_to_visibility(locator)
 
-    # метод нажимает на логотип "Самокат"
-    def click_logo_samokat(self):
-        self.driver.find_element(By.CLASS_NAME, BaseLocators.LOGO_SAMOKAT).click()
-        self.wait.until(EC.url_to_be(Urls.MAIN_PAGE))
+    # метод кликает по элементу
+    def click_to(self, locator):
+        self.wait_to_clickable(locator)
+        self.driver.find_element(*locator).click()
 
-    # метод нажимает на логотип "Яндекс"
-    def click_logo_yandex(self):
-        self.driver.find_element(By.CLASS_NAME, BaseLocators.LOGO_YANDEX).click()
-        self.driver.switch_to.window(self.driver.window_handles[1])
-        self.wait.until(EC.url_to_be(Urls.DZEN_PAGE))
+    # метод ожидания загрузки элемента
+    def wait_to_visibility(self, locator):
+        self.wait.until(EC.visibility_of_element_located(locator))
+
+    # метод ожидания кликабельности элемента
+    def wait_to_clickable(self, locator):
+        self.wait.until(EC.element_to_be_clickable(locator))
+
+    # метод ожидания загрузки страницы
+    def wait_to_url(self, url):
+        self.wait.until(EC.url_to_be(url))
+
+    # метод чтения текста
+    def read_text(self, locator):
+        return self.driver.find_element(*locator).text
+
+    # метод переключает вкладку
+    def switch_to(self, page):
+        return self.driver.switch_to.window(self.driver.window_handles[page])
+
+    # метод заполнения поля
+    def fill(self, locator, key):
+        self.driver.find_element(*locator).send_keys(key)

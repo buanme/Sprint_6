@@ -41,13 +41,3 @@ class OrderPageLocators:
 
     # окно созданного заказа
     WINDOW_CREAT_ORDER = "//div[@class='Order_Modal__YZ-d3']/div[text()='Заказ оформлен']"
-
-    # список Станций метро
-    @staticmethod
-    def get_list_stations(station):
-        return f"//div[contains(@class, 'select-search')]//div[text()='{station}']"
-
-    # выбранный Срок аренды
-    @staticmethod
-    def select_rental_period(rental_period):
-        return f"//div[@class='Dropdown-menu']/div[text()='{rental_period}']"

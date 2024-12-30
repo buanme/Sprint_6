@@ -1,6 +1,6 @@
 class BaseLocators:
     # верхняя кнопка Заказать
-    BUTTON_ORDER_UPPER = "//div[@class='Header_Nav__AGCXC']/button[1]"
+    BUTTON_ORDER_UPPER = "//div[@class='Header_Nav__AGCXC']/button[text()='Заказать']"
 
     # форма "Для кого самокат"
     FORM_ORDER_PART_I = "Order_Content__bmtHS"

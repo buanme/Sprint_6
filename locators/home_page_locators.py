@@ -8,13 +8,3 @@ class HomePageLocators:
 
     # форма с вопросами
     FORM_WITH_QUESTIONS = "Home_FAQ__3uVm4"
-
-    # поле с вопросом
-    @staticmethod
-    def get_question(number_questions):
-        return "accordion__heading-"+(str(number_questions))
-
-    # поле с ответом
-    @staticmethod
-    def get_answer(number_questions):
-        return "//div[@id='accordion__panel-"+(str(number_questions))+"']/p"

@@ -6,7 +6,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from pages.base_page import BasePage
 from pages.home_page import HomePage
 from pages.order_page import OrderPage
-from urls.urls import Urls
+from urls import Urls
 
 
 @pytest.fixture

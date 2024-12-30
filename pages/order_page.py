@@ -1,62 +1,58 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 
 from locators.order_page_locators import OrderPageLocators
+from pages.base_page import BasePage
 
 
-class OrderPage:
-
-    def __init__(self, driver, wait):
-        self.driver = driver
-        self.wait = wait
+class OrderPage(BasePage):
 
     # Метод заполняет поле Имя
     def fill_name(self, name):
-        self.driver.find_element(By.XPATH, OrderPageLocators.NAME).send_keys(name)
+        self.fill((By.XPATH, OrderPageLocators.NAME), name)
 
     # Метод заполняет поле Фамилия
     def fill_last_name(self, last_name):
-        self.driver.find_element(By.XPATH, OrderPageLocators.LAST_NAME).send_keys(last_name)
+        self.fill((By.XPATH, OrderPageLocators.LAST_NAME), last_name)
 
     # Метод заполняет поле Адрес
     def fill_address(self, address):
-        self.driver.find_element(By.XPATH, OrderPageLocators.ADDRESS).send_keys(address)
+        self.fill((By.XPATH, OrderPageLocators.ADDRESS), address)
 
     # Метод заполняет поле Станция метро
     def fill_station(self, station):
-        self.driver.find_element(By.XPATH, OrderPageLocators.STATION).send_keys(station)
-        self.wait.until(EC.element_to_be_clickable((By.XPATH, OrderPageLocators.get_list_stations(station)))).click()
+        self.fill((By.XPATH, OrderPageLocators.STATION), station)
+        self.click_to((By.XPATH, self.get_list_stations(station)))
 
     # Метод заполняет поле Телефон
     def fill_number(self, number):
-        self.driver.find_element(By.XPATH, OrderPageLocators.NUMBER).send_keys(number)
+        self.fill((By.XPATH, OrderPageLocators.NUMBER), number)
 
     # Метод нажимает кнопку Далее в форме заказа
     def click_button_next_step(self):
-        self.driver.find_element(By.XPATH, OrderPageLocators.BUTTON_NEXT_STEP).click()
-        self.wait.until(EC.text_to_be_present_in_element((By.CLASS_NAME, OrderPageLocators.FORM_PRO_ARENDU), 'Про аренду'))
+        self.click_to((By.XPATH, OrderPageLocators.BUTTON_NEXT_STEP))
+        self.wait_to_visibility((By.CLASS_NAME, OrderPageLocators.FORM_PRO_ARENDU))
 
     # Метод заполняет поле Когда
     def fill_when(self, when):
-        self.driver.find_element(By.XPATH, OrderPageLocators.WHEN).send_keys(when)
-        self.driver.find_element(By.XPATH, OrderPageLocators.WHEN).send_keys(Keys.RETURN)
+        self.fill((By.XPATH, OrderPageLocators.WHEN), when)
+        self.fill((By.XPATH, OrderPageLocators.WHEN), Keys.RETURN)
 
     # Метод заполняет поле Срок аренды
     def fill_rental_period(self, rental_period):
-        self.driver.find_element(By.XPATH, OrderPageLocators.RENTAL_PERIOD).click()
-        self.wait.until(EC.element_to_be_clickable((By.XPATH, OrderPageLocators.LIST_RENTAL_PERIODS)))
-        self.driver.find_element(By.XPATH, OrderPageLocators.select_rental_period(rental_period)).click()
+        self.click_to((By.XPATH, OrderPageLocators.RENTAL_PERIOD))
+        self.wait_to_clickable((By.XPATH, OrderPageLocators.LIST_RENTAL_PERIODS))
+        self.click_to((By.XPATH, self.select_rental_period(rental_period)))
 
     # Метод нажимает кнопку Заказать
     def click_button_order(self):
-        self.driver.find_element(By.XPATH, OrderPageLocators.BUTTON_ORDER).click()
-        self.wait.until(EC.visibility_of_element_located((By.XPATH, OrderPageLocators.WINDOW_CONFIRM_ORDER)))
+        self.click_to((By.XPATH, OrderPageLocators.BUTTON_ORDER))
+        self.wait_to_visibility((By.XPATH, OrderPageLocators.WINDOW_CONFIRM_ORDER))
 
     # Метод нажимает кнопку Да
     def click_confirm_button(self):
-        self.driver.find_element(By.XPATH, OrderPageLocators.BUTTON_YES).click()
-        self.wait.until(EC.visibility_of_element_located((By.XPATH, OrderPageLocators.WINDOW_CREAT_ORDER)))
+        self.click_to((By.XPATH, OrderPageLocators.BUTTON_YES))
+        self.wait_to_visibility((By.XPATH, OrderPageLocators.WINDOW_CREAT_ORDER))
 
     # Метод заполняет форму заказа
     def input_form_order(self, data):
@@ -73,4 +69,13 @@ class OrderPage:
 
     # Метод получет инфо о статусе заказа
     def get_order_status(self):
-        return self.driver.find_element(By.XPATH, OrderPageLocators.WINDOW_CREAT_ORDER).text
+        return self.read_text((By.XPATH, OrderPageLocators.WINDOW_CREAT_ORDER))
+
+    # список Станций метро
+    def get_list_stations(self, station):
+        return f"//div[contains(@class, 'select-search')]//div[text()='{station}']"
+
+    # выбранный Срок аренды
+    def select_rental_period(self, rental_period):
+        return f"//div[@class='Dropdown-menu']/div[text()='{rental_period}']"
+
