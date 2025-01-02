@@ -8,3 +8,9 @@ class HomePageLocators:
 
     # форма с вопросами
     FORM_WITH_QUESTIONS = "Home_FAQ__3uVm4"
+
+    # вопрос
+    QUESTION_LOCATOR = "accordion__heading-{0}"
+
+    # ответ
+    ANSWER_LOCATOR = "//div[@id='accordion__panel-{0}']/p"

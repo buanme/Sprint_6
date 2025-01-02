@@ -1,3 +1,4 @@
+import allure
 import pytest
 
 from urls import Urls
@@ -5,7 +6,7 @@ from urls import Urls
 
 class TestOrders:
 
-    # Проверить, что появилось всплывающее окно с сообщением об успешном создании заказа.
+    @allure.title("Проверка, что появляется всплывающее окно с сообщением об успешном создании заказа.")
     @pytest.mark.parametrize("data, method",
                              [({'name': 'Заказ',
                                'last_name': 'Тестовый',
@@ -30,13 +31,13 @@ class TestOrders:
         order_page.input_form_order(data)
         assert 'Заказ оформлен' in order_page.get_order_status()
 
-    # Проверить: если нажать на логотип «Самоката», попадёшь на главную страницу «Самоката».
+    @allure.title("Проверка, что при нажатии на логотип «Самоката», попадёшь на главную страницу «Самоката».")
     def test_check_logo_samokat(self, driver, home_page):
         home_page.order_upper()
         home_page.click_logo_samokat()
         assert driver.current_url == Urls.MAIN_PAGE
 
-    # Проверить: если нажать на логотип Яндекса, в новом окне через редирект откроется главная страница Дзена.
+    @allure.title("Проверка, что при нажатии на логотип Яндекса, в новом окне через редирект откроется главная страница Дзена.")
     def test_check_logo_yandex(self, driver, home_page):
         home_page.click_logo_yandex()
         assert driver.current_url == Urls.DZEN_PAGE

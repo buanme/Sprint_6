@@ -41,3 +41,9 @@ class OrderPageLocators:
 
     # окно созданного заказа
     WINDOW_CREAT_ORDER = "//div[@class='Order_Modal__YZ-d3']/div[text()='Заказ оформлен']"
+
+    # станция метро
+    STATION_LIST_LOCATOR = "//div[contains(@class, 'select-search')]//div[text()='{0}']"
+
+    # период аренды
+    RENTAL_PERIOD_LOCATOR = "//div[@class='Dropdown-menu']/div[text()='{0}']"
